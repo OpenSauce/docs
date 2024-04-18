@@ -16,13 +16,13 @@ pre_production_preview_version: v23.2.0-rc.2
 This [testing release]({% link releases/index.md %}#release-naming) is not qualified for production environments and not eligible for support or uptime SLA commitments.
 {{site.data.alerts.end}}
 
-An [Org Administrator]({% link cockroachcloud/authorization.md %}#org-administrator-legacy) can upgrade your CockroachDB {{ site.data.products.dedicated }} cluster from the CockroachDB {{ site.data.products.cloud }} Console. This page guides you through the process of upgrading.
+An [Org Administrator]({% link cockroachcloud/authorization.md %}#org-administrator) can upgrade your CockroachDB {{ site.data.products.dedicated }} cluster from the CockroachDB {{ site.data.products.cloud }} Console. This page guides you through the process of upgrading.
 
 {{site.data.alerts.callout_success}}
 Upgrading from {{ page.prev_version }} to {{ page.pre_production_preview_version }} is a major-version upgrade. Upgrading a CockroachDB {{ site.data.products.dedicated }} cluster to a new major version is opt-in. Before proceeding, review the CockroachDB {{ site.data.products.cloud }} [CockroachDB Cloud Upgrade Policy](https://cockroachlabs.com/docs/cockroachcloud/upgrade-policy#pre-production-preview). After a cluster is upgraded to a Pre-Production Preview release, it is automatically upgraded to all subsequent releases within the same major version—including additional beta and RC releases, the GA release, and subsequent patch releases after GA, as patch version upgrades. To learn more, refer to [Patch Version Upgrades]({% link cockroachcloud/upgrade-policy.md %}#patch-version-upgrades).
 {{site.data.alerts.end}}
 {% else %}
-Now that [CockroachDB {{ page.page_version }}](https://www.cockroachlabs.com/docs/releases/ {{ page.page_version }}) is available, an [Org Administrator]({% link cockroachcloud/authorization.md %}#org-administrator-legacy) can upgrade your CockroachDB {{ site.data.products.dedicated }} cluster from the CockroachDB {{ site.data.products.cloud }} Console. This page guides you through the process for an Admin.
+Now that [CockroachDB {{ page.page_version }}](https://www.cockroachlabs.com/docs/releases/ {{ page.page_version }}) is available, an [Org Administrator]({% link cockroachcloud/authorization.md %}#org-administrator) can upgrade your CockroachDB {{ site.data.products.dedicated }} cluster from the CockroachDB {{ site.data.products.cloud }} Console. This page guides you through the process for an Admin.
 
 {{site.data.alerts.callout_success}}
 Upgrading a CockroachDB {{ site.data.products.dedicated }} cluster to a new major version is opt-in. Before proceeding, review the CockroachDB {{ site.data.products.cloud }} [CockroachDB Cloud Upgrade Policy](https://cockroachlabs.com/docs/cockroachcloud/upgrade-policy).
@@ -71,8 +71,6 @@ Before starting the upgrade, complete the following steps.
 
 Your cluster will be unavailable while its single node is stopped and restarted with {{ page.page_version }}. Prepare your application for this brief downtime, typically a few minutes.
 
-Your cluster will be unavailable while its single node is stopped and restarted with v23.1. Prepare your application for this brief downtime, typically a few minutes.
-
 The [**SQL Users**]({% link cockroachcloud/managing-access.md %}#create-a-sql-user) and [**Tools**]({% link cockroachcloud/tools-page.md %}) tabs in the CockroachDB {{ site.data.products.cloud }} Console will also be disabled during this time.
 
 </section>
@@ -90,7 +88,7 @@ Review the backward-incompatible changes and deprecated features announced in th
 
 ### Reset SQL statistics
 
-Before upgrading to CockroachDB {{ page.page_version }}, it is recommended to reset the cluster's SQL statistics. Otherwise, it may take longer for the upgrade to complete on a cluster with large statement or transaction statistics tables. This is due to the addition of a new column and a new index to these tables. To reset SQL statistics, issue the following SQL command:
+Before upgrading to CockroachDB {{ page.page_version }}, it is recommended to reset the cluster's [SQL statistics]({% link {{ page.page_version }}/cost-based-optimizer.md %}#table-statistics). Otherwise, it may take longer for the upgrade to complete on a cluster with large statement or transaction statistics tables. This is due to the addition of a new column and a new index to these tables. To reset SQL statistics, issue the following SQL command:
 
 {% include_cached copy-clipboard.html %}
 ~~~ sql
@@ -117,7 +115,7 @@ Your cluster will be upgraded one node at a time without interrupting the cluste
 Your single-node cluster will be unavailable for a few minutes while the node is stopped and restarted with CockroachDB {{ page.page_version }}.
 </section>
 
-After it is started, an upgrade cannot be cancelled. Instead, you can wait for the upgrade to finish, then [roll it back back](#roll-back-the-upgrade) for up to 72 hours, after which time it will be finalized and cannot be rolled back.
+After it is started, an upgrade cannot be cancelled. Instead, you can wait for the upgrade to finish, then [roll it back](#roll-back-the-upgrade) for up to 72 hours, after which time it will be finalized and cannot be rolled back.
 
 ## Step 6. Monitor the upgrade
 
